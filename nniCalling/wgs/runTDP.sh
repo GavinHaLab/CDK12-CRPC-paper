@@ -1,0 +1,1 @@
+Rscript TDPfromSnowmanAndCombineTITANichor_hg38.R combineSVABAandTITAN/ 10e7 sample_all.txt 0 0 0 WCDT

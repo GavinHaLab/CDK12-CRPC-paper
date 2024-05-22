@@ -1,0 +1,6 @@
+ID	SubjectID
+sampleIDA	sampleNameA
+sampleIDB	sampleNameB
+...
+
+### note: the sampleID and sampleName are separated by a tab, and can be the same if the sampleID is the same as the sampleName

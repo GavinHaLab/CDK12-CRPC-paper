@@ -1,0 +1,3 @@
+chrA	positionX	sampleName	ref	alt
+chrB	positionY	sampleName	ref	alt
+## no header, one file per sample. Can be created given a VCF dir using prep_input.py
