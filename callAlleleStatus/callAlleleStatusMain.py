@@ -139,14 +139,7 @@ def addCounts(df):
     df['gnomAD_genome_ALL'] = df['gnomAD_genome_ALL'].fillna(0)
     df = df[df['gnomAD_genome_ALL'] < 0.1]
     return df
-    # for sanity, print out mean, median, and quantiles of Max_AD and Max_DP
-    # print(df['Max_AD'].mean())
-    # print(df['Max_AD'].median())
-    # print(df['Max_AD'].quantile([0.25, 0.75]))
-    # print(df['Max_DP'].mean())
-    # print(df['Max_DP'].median())
-    # print(df['Max_DP'].quantile([0.25, 0.75]))
-    # return df
+
 
 def addCountsIndel(df):
     ### need to add this function to the indel portion of the script, filtering out rows where AD < 5 and DP < 10
@@ -156,14 +149,6 @@ def addCountsIndel(df):
     df['DP'] = df['Otherinfo14'].str.split(':').str[2]
     df['AD'] = pd.to_numeric(df['AD'])
     df['DP'] = pd.to_numeric(df['DP'])
-
-    # for sanity, print out mean, median, and quantiles of AD and DP
-    # print(df['AD'].mean())
-    # print(df['AD'].median())
-    # print(df['AD'].quantile([0.25, 0.75]))
-    # print(df['DP'].mean())
-    # print(df['DP'].median())
-    # print(df['DP'].quantile([0.25, 0.75]))
 
     return df
 
@@ -207,22 +192,6 @@ def getPatientSamples(pat_file, samples_list):
 ##  get indel filepaths:
 indel_locs = {}
 
-# for file in os.listdir(indel_dir):
-#     # print(dir)
-#     # for file in os.listdir(d):
-#     # print('yes')
-#     name = file
-#     if ".DS_Store" in name:
-#         continue
-#     file = file + '/' + file + '.svaba.somatic.indel.hg38_multianno.txt'
-#     # print(file)
-#     # if file.endswith('svaba.somatic.indel.hg38_multianno.txt'):
-#         # print('yes')
-#         # print(dir)
-#     sample = file.split('.')[0]
-#     indel_locs[name] = indel_dir + file
-    # print(indel_locs[name])
-
 ## read in CN matrix, which is also where we get our subset of genes
 cn = pd.read_csv(cn_file, sep="\t", header=0, index_col=0)
 samples = cn.index
@@ -249,13 +218,7 @@ for sample in sample_list:
     for gene in gene_list:
         evidence[sample][gene] = {'CNV': [], 'LOH': []}
 
-# want to parse cancer census genes, if provided, make two lists: TSGs and OGs
 
-# ic = ic[ic['Role in Cancer'].str.contains('oncogene|fusion', case=False)]
-# print(ic['Role in Cancer'].unique())
-
-
-# XXX: work on this
 if args.cancerCensusGenes:
     tsgs = []
     ogs = []
@@ -459,64 +422,7 @@ for snv_path in snv_paths:
 
 print('\n Calling Indels \n')
 
-
-### INDEL PORTION ###
-### SWAPPING FOR NEW METHOD USING COMBINED CALLS, SO WILL REWRITE THIS SECTION ###
-# read in indel files, subset to genes of interest
-# for sample in indel_locs:
-#     ipath = indel_locs[sample]
-#     # print(ipath)
-#     try:
-#         indel = pd.read_csv(ipath, sep="\t", header=0, index_col=0)
-#     except:
-#         print('No indel file found for sample ' + sample)
-#         continue
-#     sample_name = sample
-#     # subset to rows with gene col values in gene_list
-#     indel = indel[indel['Gene.refGene'].isin(gene_list)]
-#     indel = addCountsIndel(indel)
-
-#     # now, filter out rows where AD < 5 and DP < 10
-#     indel = indel[(indel['AD'] >= 5) & (indel['DP'] >= 10)]
-#     # ensure no benign calls go through
-#     indel = indel[indel['CLNSIG'] != 'Benign']
-#     # loop through gene list in subset df, apply find_protein_change_indel function to AAChange.refGene column, add to evidence dictionary
-#     for gene in gene_list:
-#         subset = indel[indel['Gene.refGene'] == gene]
-#         # subset = subset[(subset['Func.refGene'] == 'exonic') | (subset['Func.refGene'] == 'splicing')]
-#         exonic = subset[subset['Func.refGene'] == 'exonic']
-#         splicing = subset[subset['Func.refGene'] == 'splicing']
-#         # print(len(splicing))
-#         if gene == 'TP53':
-#             changes = exonic['AAChange.refGene'].apply(find_protein_change_p53)
-#         else:
-#             changes = exonic['AAChange.refGene'].apply(find_protein_change_indel)
-#         # parse splicing column, add 'splice' to changes list
-#         changes = changes[changes != '']
-#         if wordy:
-#             changes = changes + ';' + exonic.index.map(formatIndex)
-#         else:
-#             changes = changes
-
-#         splicing = splicing['Func.refGene'] + ';' + splicing.index.map(formatIndex)
-#         changes = changes.tolist()
-#         if len(splicing) > 0:
-#             # print(splicing['AAChange.refGene'])
-#             # print(len(splicing))
-#             for splice in splicing.tolist():
-#                 changes.append(splice)
-#         if changes == []:
-#             continue
-#         for change in changes:
-#             if sample_name in evidence:
-#                 evidence[sample_name][gene].append(change)
-#                 print(change)
-#             else:
-#                 print('Sample ' + sample_name + ' not found in evidence dictionary')
-
 ### END OF OLD INDEL PORTION ###
-# indel_dir = [os.path.join(indel_dir, f) for f in os.listdir(indel_dir) if f.endswith('union_indels.txt')]
-# print(indel_dir)
 for file in os.listdir(indel_dir):
     print(file)
     if file.endswith('.txt'):
@@ -736,5 +642,4 @@ if wordy:
     final.to_csv(output_dir + '/AlleleStatusVerbose.txt', sep="\t", index=True, header=True)
 else:
     final.to_csv(output_dir + '/AlleleStatusARfix.txt', sep="\t", index=True, header=True)
-# final.to_csv(output_dir + '/haffnerGeneStatus.txt', sep="\t", index=True, header=True)
-# python3 /fh/fast/ha_g/projects/ProstateTAN/analysis_WES/CDK12_project/callAlleleStatusMain.py -v /fh/fast/ha_g/projects/ProstateTAN/analysis_WES/SNV_calling/combined_TwoOrMore -c /fh/fast/ha_g/projects/ProstateTAN/analysis_WES/haffnerProject/testCN.txt -i /fh/fast/ha_g/projects/ProstateTAN/analysis_WES/CN-SV_calling/SVABA/ -o ../haffnerProject/geneStatus/ -loh /fh/fast/ha_g/projects/ProstateTAN/analysis_WES/CN-SV_calling/TitanCNA/GeneCnStatus/TAN_WES_geneLOH.txt -p /fh/fast/ha_g/projects/ProstateTAN/analysis_WES/CDK12_project/haffnerPatients.txt
+

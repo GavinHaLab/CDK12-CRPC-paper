@@ -1,4 +1,4 @@
-# 20231123 arb
+# 20231123 Armand Bankhead
 # annotate breakpoints with gene information
 
 options(stringsAsFactors=F)
