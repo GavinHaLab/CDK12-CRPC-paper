@@ -1,0 +1,7 @@
+samples:
+  02-065_NL-SPLN_A_WES:
+      normalBamPath: /path/to/normal/normal.bam
+      probeSetPath: path/to/bait/file.bed
+  04-050_NL-KDNY_C_WES:
+      normalBamPath: /path/to/normal/normal.bam
+      probeSetPath: path/to/bait/file.bed

@@ -1,0 +1,5 @@
+samples:
+  00-010_NL-KDNY_C_WGS:
+      normalBamPath: /path/to/normal/normal.bam
+  00-140_NL-KDNY_B_WGS:
+      normalBamPath: /path/to/normal/normal.bam
