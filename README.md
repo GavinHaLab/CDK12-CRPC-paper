@@ -1,5 +1,3 @@
-# Code for Frank et al. manuscript
-
 This repo contains code and data for the submitted manuscript:
 
 _**Molecular consequences of acute versus chronic CDK12 loss in prostate carcinoma nominates distinct therapeutic strategies.**_  
