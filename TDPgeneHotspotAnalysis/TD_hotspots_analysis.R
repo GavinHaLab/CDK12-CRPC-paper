@@ -8,7 +8,7 @@ library(karyoploteR)
 library(stringr)
 library(ggrepel)
 
-inFiles <- list.files("../TDPanalysis", pattern = "TDPsegs_allSamples.txt", full.names = TRUE)
+inFiles <- list.files("../TDPanalysis", pattern = "TDPsegs_allSamples.txt", full.names = TRUE, recursive = TRUE)
 tdpSampleList <- fread("TDP_sampleList.txt", header=FALSE)
 geneFile <- "Census_all_hg38_01_27_19_DL06Jul2021.txt" #hg38
 geneFile.hg19 <- "Census_allWedFeb700_28_332024_HG19.tsv"

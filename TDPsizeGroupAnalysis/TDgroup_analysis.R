@@ -3,7 +3,7 @@ library(ggplot2)
 library(mclust)
 library(dplyr)
 
-inFiles <- list.files("../TDPanalysis/", pattern = "TDPsegs.txt", full.names=TRUE)
+inFiles <- list.files("../TDPanalysis/", pattern = "TDPsegs.txt", full.names=TRUE, recursive=TRUE)
 outFile <- "TD_groupClass.txt"
 
 ##################################################

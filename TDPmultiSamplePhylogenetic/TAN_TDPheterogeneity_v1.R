@@ -6,7 +6,7 @@ library(stringr)
 library(plyranges)
 library(ape)
 
-inFiles <- c("../TDPanalysis/UW_WGS_TDPsegs.txt")
+inFiles <- c("../TDPanalysis/wgs/UW_WGS_TDPsegs.txt")
 outPrefix <- "TAN_TDPheterogeneity"
 
 #GENOME_SIZE <- 3e9
